@@ -41,10 +41,31 @@ class BukuModel:
     def delete_buku(self, id_buku):
         if self.conn:
             cursor = self.conn.cursor()
-            query = f"DELETE FROM {self.table_name} WHERE id_buku = %s"
-            val = (id_buku,)
-            cursor.execute(query, val)
-            self.conn.commit()
-            cursor.close()
-            return True
+            try:
+                # Hapus catatan peminjaman yang terkait dengan buku
+                query_peminjaman = """
+                    DELETE FROM peminjaman
+                    WHERE id_buku = %s
+                """
+                cursor.execute(query_peminjaman, (id_buku,))
+
+                # Hapus data buku
+                query_buku = """
+                    DELETE FROM buku
+                    WHERE id_buku = %s
+                """
+                cursor.execute(query_buku, (id_buku,))
+
+                self.conn.commit()
+                return True
+
+            except Exception:
+                self.conn.rollback()
+                raise
+
+            finally:
+                cursor.close()
+
         return False
+
+   
