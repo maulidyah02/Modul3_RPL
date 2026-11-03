@@ -6,16 +6,14 @@ class BukuView(ctk.CTk):
         super().__init__()
 
         self.title("Sistem Manajemen Perpustakaan")
-        self.geometry("800x450")
+        self.geometry("800x550")
 
         # Konfigurasi Grid Utama (1 Baris, 2 Kolom)
         self.grid_columnconfigure(0, weight=1)  # Kolom Kiri (Form)
         self.grid_columnconfigure(1, weight=2)  # Kolom Kanan (Tabel lebih lebar)
         self.grid_rowconfigure(0, weight=1)
 
-        # ==========================================
-        # FRAME KIRI: FORMULIR INPUT BUKU
-        # ==========================================
+        # =============== FRAME KIRI: FORMULIR INPUT BUKU ===============
         self.frame_kiri = ctk.CTkFrame(self)
         self.frame_kiri.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
@@ -56,7 +54,16 @@ class BukuView(ctk.CTk):
             hover_color="darkred"
         )
         self.btn_hapus.pack(pady=10, padx=15, fill="x")
-
+    
+        # Tombol Logout
+        self.btn_logout = ctk.CTkButton(
+            self.frame_kiri,
+            text="Logout",
+            fg_color="gray",
+            hover_color="darkgray"
+        )
+        self.btn_logout.pack(pady=10, padx=15, fill="x")
+        
         # ==========================================
         # FRAME KANAN: TABEL DAFTAR BUKU
         # ==========================================

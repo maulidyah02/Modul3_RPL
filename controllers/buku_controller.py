@@ -15,7 +15,8 @@ class BukuController:
         self.view.btn_simpan.configure(command=self.simpan_data)
         self.view.btn_update.configure(command=self.update_data)
         self.view.btn_hapus.configure(command=self.hapus_data)
-
+        self.view.btn_logout.configure(command=self.logout)
+        
         # Mengikat pemilihan baris tabel dengan fungsi pilih_data
         self.view.tabel.bind("<<TreeviewSelect>>", self.pilih_data)
 
@@ -198,7 +199,18 @@ class BukuController:
                 "Error",
                 "Terjadi kesalahan saat menghapus data."
             )
+    def logout(self):
+        konfirmasi = messagebox.askyesno(
+            "Konfirmasi Logout",
+            "Apakah Anda yakin ingin keluar?"
+        )
 
+        if konfirmasi:
+            self.view.destroy()
+            from controllers.auth_controller import AuthController
+            login = AuthController()
+            login.run() 
+            
     # Fungsi untuk menjalankan aplikasi
     def run(self):
         self.view.mainloop()
